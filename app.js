@@ -9,11 +9,12 @@ var _ = require('lodash');
  * Handle argument
  */
 var argvIndex = 2;
-var CLIENT_COUNT_PER_ROOM;
+var CLIENT_COUNT_PER_ROOM, PORT;
 if (! process.argv[argvIndex]) {
-  return console.log('Usage: node app.js [client count per room (int)]');
+  return console.log('Usage: node app.js <client count per room (int)> <port (int, optional)>');
 } else {
   CLIENT_COUNT_PER_ROOM = process.argv[argvIndex];
+  PORT = process.argv[++argvIndex] ? process.argv[argvIndex] : '3000';
 }
 
 // socket.ioのルーム用変数
@@ -40,7 +41,7 @@ var getAllRooms = function(io) {
     .value();
 };
 
-server.listen(3000);
+server.listen(PORT);
 
 /**
  * Display benchmark infomation
@@ -112,6 +113,10 @@ server.listen(3000);
   io.sockets.on('connection', function(socket) {
 
     users = socket.client.conn.server.clientsCount;
+
+    socket.on('message', function(message) {
+      socket.send(message);
+    });
 
     socket.on('disconnect', function() {
       users = socket.client.conn.server.clientsCount;

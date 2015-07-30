@@ -10,28 +10,30 @@
 
 
 ### Run:
-1. Start server: `node app.js <client count per room>`
+1. Start server: `node app.js <client count per room> <port>`
 	* transports is websocket
+	* Port parameter is optional. If not specified, it will connect to port **3000**.
 	* You can `DEBUG=* node app.js 30`
 	* Log Option, see [official docs](http://socket.io/docs/migrating-from-0-9/#log-differences)
 
 1. Start clients: `node benchmark.js <users> <rampup in seconds> <host> <port>`
+	* Host and port parameters are optional. If not specified, it will connect to **localhost** on port **3000**.
+	* Different Config Example: `node benchmark.js 120 60 192.168.1.50 4040`
 	* Ex: 'node benchmark.js 120 60' -> one new user every 0.5 seconds, until 120 users are connected.
 
 1. Start benchmark: `ab -n 100 -c 100 http://localhost:3000/`
-	* Node server emits to a random room in response to ab
+	* Node server emits to a random room in response to ab request
 	* Response ends when emitting is over
 
 
 ### Option:
-* Host and port parameters are optional. If not specified, then echo behaviour will be used, and it will connect to **localhost** on port **3000**.
-* Different Config Example: `node benchmark.js 120 60 192.168.1.50 4040`
 * It is better to repeat step 2 multiple times than run it one time with a lot of users, since node is monothread.
 
 
 ### Response time:
-* Run `node responsetime.js` to see current response time. It will connect another user, that will send messages to the server, using the echo behaviour. The cicle time is logged in miliseconds.
-
+* Run `node responsetime.js <host> <port>`
+	* To see current response time. It will connect another user, that will send messages to the server, using the echo behaviour. The cicle time is logged in miliseconds.
+* Host and port parameters are optional. If not specified, it will connect to **localhost** on port **3000**.
 
 ### Output:
 app.js will log the following line each second:

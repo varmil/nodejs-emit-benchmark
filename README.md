@@ -59,8 +59,8 @@ To debug/profile app.js:
 
 
 ### TODO/Brainstorm:
-*) Make benchmark.js fork new processes to run clients, instead of running the script multiple times.
-*) Use redis store and create several server processes.
+* Make benchmark.js fork new processes to run clients, instead of running the script multiple times.
+* Use redis store and create several server processes.
 
 
 Tested only with node v0.12.0.

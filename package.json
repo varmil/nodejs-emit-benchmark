@@ -6,9 +6,9 @@
     "express": "^4.13.1",
     "lodash": "^3.10.0",
     "microtime": "^1.4.2",
-    "socket.io": "*",
-    "socket.io-client": "*",
-    "v8-profiler": "*"
+    "socket.io": "^1.3.6",
+    "socket.io-client": "^1.3.6",
+    "v8-profiler": "^5.2.9"
   },
   "devDependencies": {}
 }

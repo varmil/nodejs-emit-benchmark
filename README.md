@@ -3,9 +3,9 @@
 
 
 ### Installation:
-1. 'git clone git@github.com:varmil/socket.io-benchmark.git'
-1. on created dir, 'npm install'
-1. set ulimit 'ulimit -u <desired ulimit>'
+1. clone this repository
+1. on created dir, `npm i`
+1. set ulimit `ulimit -u <desired ulimit>`, `ulimit -n <desired ulimit>`
 	* set ulimit to increase max number of opened sockets.
 
 

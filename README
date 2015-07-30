@@ -7,7 +7,6 @@ We are building it as a tool to compare WebSocket vs Comet performance, in terms
 
 We choose Socket.IO, because we could run the experiment using WebSocket, and then run it again, using XHR-Polling, or JSON-Polling, by simply changing the available Transports.
 
-
 There are two tests you can run:
 * echo -> each client sends a message to the server, which sends it back to the same client, which repeats the process forever.
 
@@ -21,18 +20,23 @@ Installation:
 
 * set ulimit to increase max number of opened sockets.
 
+
 Run:
-1)  Start server: 'node app.js'
+1)  Start server: 'node app.js <client count per room>'
     * 'transports' is websocket
-    * you can DEBUG=* node app.js
+    * You can DEBUG=* node app.js 30
     * Log Option, see http://socket.io/docs/migrating-from-0-9/#log-differences
 
-2)  Start clients: 'node benchmark.js <users> <rampup in seconds> <interval of emitting from client(ms)> <broadcast> <host> <port> &'
-    Ex: 'node benchmark.js 120 60' -> one new user every 0.5 seconds, until 120 users are connected.
+2)  Start clients: 'node benchmark.js <users> <rampup in seconds> <host> <port>'
+    * Ex: 'node benchmark.js 120 60' -> one new user every 0.5 seconds, until 120 users are connected.
 
-interval, Broadcast, host and port parameters are optional. If not specified, then echo behaviour will be used, and it will connect to localhost on port 3000.
-Default interval is 100 ms. formula is [ Math.round(Math.random() * interval * 0.1) + interval) ]
-Different Config Example: 'node benchmark.js 120 60 1500 broadcast 192.168.1.50 4040'
+3)  Start benchmark: 'ab -n 100 -c 100 http://localhost:3000/'
+	* Node server emits to a random room in response to ab
+	* Response ends when emitting is over
+
+
+Host and port parameters are optional. If not specified, then echo behaviour will be used, and it will connect to localhost on port 3000.
+Different Config Example: 'node benchmark.js 120 60 192.168.1.50 4040'
 
 It is better to repeat step 2 multiple times than run it one time with a lot of users, since node is monothread.
 
@@ -40,15 +44,13 @@ Run 'node responsetime.js' to see current response time. It will connect another
 
 Output:
 app.js will log the following line each second:
-U: 100, MR/S: 2500, MS/S: 2500, MR/S/U: 25, MS/S/U: 25, CPU: 56, Mem: 1.8
+U: 100, MR/S: 2500, MS/S: 2500, MR/S/U: 25, MS/S/U: 25
 
 U       -> Number of connected users
 MR/S    -> Messages received per second
 MS/S    -> Messages sended per second
 MR/S/U  -> Messages received per second per user
 MS/S/U  -> Messages sended per second per user
-CPU     -> CPU usage percentage
-Mem     -> Memory usage percentage
 
 To verify global resources utilization (by server and multiple clients processes), use 'top', 'htop' (recomended) or something like it.
 
@@ -69,4 +71,4 @@ TODO/Brainstorm:
 
 I'm quite new to node, socket.io and benchmarking. Any help is appreciated.
 
-Tested only with node v0.10.0.
+Tested only with node v0.12.0.

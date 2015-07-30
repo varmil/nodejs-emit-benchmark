@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "express": "^4.13.1",
+    "lodash": "^3.10.0",
+    "microtime": "^1.4.2",
     "socket.io": "*",
     "socket.io-client": "*",
     "v8-profiler": "*"

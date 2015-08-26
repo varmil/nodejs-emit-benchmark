@@ -1,22 +1,20 @@
 var profile = require('v8-profiler');
 var io = require('socket.io-client');
-var message = 'o bispo de constantinopla nao quer se desconstantinopolizar';
 
-function user(host, port) {
-  // Avoid Upgrading to WebSocket. (always connect with WebSocket)
+function connect(host, port) {
   var socket = io.connect('http://' + host + ':' + port, {
     'force new connection': true,
-    transports: [
-      'websocket',
-      'xhr-polling',
-      'jsonp-polling',
-      'polling'
-    ]
   });
 
-
   socket.on('connect', function() {
+    // disconnect and reconnect regularly
+    setTimeout(function() {
+      socket.disconnect();
 
+      setTimeout(function() {
+        connect(host, port);
+      }, 10 + 100 * Math.random() | 0);
+    }, 3000 + 300 * Math.random() | 0);
   });
 
   socket.on('connect_error', function(reason) {
@@ -38,5 +36,5 @@ var host = process.argv[argvIndex++] ? process.argv[argvIndex - 1]  : 'localhost
 var port = process.argv[argvIndex++] ? process.argv[argvIndex - 1]  : '3000';
 
 for(var i=0; i<users; i++) {
-  setTimeout(function() { user(host, port); }, i * newUserTimeout);
+  setTimeout(function() { connect(host, port); }, i * newUserTimeout);
 }

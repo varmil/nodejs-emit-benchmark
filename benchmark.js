@@ -1,4 +1,3 @@
-var profile = require('v8-profiler');
 var io = require('socket.io-client');
 
 function connect(host, port) {
@@ -7,14 +6,6 @@ function connect(host, port) {
   });
 
   socket.on('connect', function() {
-    // disconnect and reconnect regularly
-    setTimeout(function() {
-      socket.disconnect();
-
-      setTimeout(function() {
-        connect(host, port);
-      }, 10 + 100 * Math.random() | 0);
-    }, 3000 + 300 * Math.random() | 0);
   });
 
   socket.on('connect_error', function(reason) {
@@ -25,7 +16,6 @@ function connect(host, port) {
     console.error('[TIMEOUT]::', reason);
   });
 }
-
 
 var argvIndex = 2;
 
